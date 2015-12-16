@@ -94,7 +94,7 @@ record SearchExpressionLevelRequest {
   /**
   The rnaQuantification to restrict search to.
   */
-  string rnaQuantificationId = null;
+  string rnaQuantificationId;
 
   /**
   If present returns ExpressionLevel records with expressions exceeding
@@ -158,7 +158,7 @@ record SearchFeatureGroupRequest {
   /**
   RNA Quantification to search.
   */
-  string rnaQuantificationId = null;
+  string rnaQuantificationId;
 
   /**
   Feature Groups of interest.
