@@ -67,17 +67,12 @@ protocol SequenceAnnotations {
     The region is being fully annotated, but can be divided into bins.
     If you have gaps, you need to define a sequence of such Wiggles.
     */
-    /* TODO: path not used yet, as graph code is not working in server.
-       Fields below are copied directly from variants.avdl for now.
-    Path path; */
 
     /**
     The reference on which this feature occurs.
     (e.g. `chr20` or `X`)
-
-    If the API server supports the "classic" mode, this field must not be null.
     */
-    union { null, string } referenceName = null;
+    string referenceName;
 
     /**
     The start position at which this feature occurs (0-based).
@@ -85,18 +80,14 @@ protocol SequenceAnnotations {
     Genomic positions are non-negative integers less than reference length.
     Features spanning the join of circular genomes are represented as
     two features one on each side of the join (position 0).
-
-    If the API server supports the "classic" mode, this field must not be null.
     */
-    union { null, long } start = null;
+    long start = 0;
 
     /**
     The end position (exclusive), resulting in [start, end) closed-open interval.
     This is typically calculated by `start + referenceBases.length`.
-
-    If the API server supports the "classic" mode, this field must not be null.
     */
-    union { null, long } end = null;
+    long end;
 
     /**
     The values associated to this region.
@@ -147,17 +138,12 @@ protocol SequenceAnnotations {
     /**
     Genomic location.
     */
-    /* TODO: path not used yet, as graph code is not working in server.
-       Fields below are copied directly from variants.avdl for now.
-    Path path; */
 
     /**
     The reference on which this feature occurs.
     (e.g. `chr20` or `X`)
-
-    If the API server supports the "classic" mode, this field must not be null.
     */
-    union { null, string } referenceName = null;
+    string referenceName;
 
     /**
     The start position at which this feature occurs (0-based).
@@ -165,18 +151,14 @@ protocol SequenceAnnotations {
     Genomic positions are non-negative integers less than reference length.
     Features spanning the join of circular genomes are represented as
     two features one on each side of the join (position 0).
-
-    If the API server supports the "classic" mode, this field must not be null.
     */
-    union { null, long } start = null;
+    long start = 0;
 
     /**
     The end position (exclusive), resulting in [start, end) closed-open interval.
     This is typically calculated by `start + referenceBases.length`.
-
-    If the API server supports the "classic" mode, this field must not be null.
     */
-    union { null, long } end = null;
+    long end;
 
     /**
     Feature that is annotated by this region.  Normally, this will be a term in
