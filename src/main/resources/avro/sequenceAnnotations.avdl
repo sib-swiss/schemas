@@ -62,13 +62,6 @@ protocol SequenceAnnotations {
   */
   record Wiggle {
     /**
-    The path for the region being annotated.
-    Note that we are fusing parts of UCSC BedGraph and Wiggle syntax.
-    The region is being fully annotated, but can be divided into bins.
-    If you have gaps, you need to define a sequence of such Wiggles.
-    */
-
-    /**
     The reference on which this feature occurs.
     (e.g. `chr20` or `X`)
     */
@@ -134,10 +127,6 @@ protocol SequenceAnnotations {
     Identifier for the containing feature set.
     */
     string featureSetId;
-
-    /**
-    Genomic location.
-    */
 
     /**
     The reference on which this feature occurs.
