@@ -58,57 +58,6 @@ protocol SequenceAnnotations {
   }
   
   /**
-  Continuous numerical annotation along a path.
-  */
-  record Wiggle {
-    /**
-    The reference on which this feature occurs.
-    (e.g. `chr20` or `X`)
-    */
-    string referenceName;
-
-    /**
-    The start position at which this feature occurs (0-based).
-    This corresponds to the first base of the string of reference bases.
-    Genomic positions are non-negative integers less than reference length.
-    Features spanning the join of circular genomes are represented as
-    two features one on each side of the join (position 0).
-    */
-    long start = 0;
-
-    /**
-    The end position (exclusive), resulting in [start, end) closed-open interval.
-    This is typically calculated by `start + referenceBases.length`.
-    */
-    long end;
-
-    /**
-    The values associated to this region.
-    If this list contains _count_ elements, then the region is divided
-    as cleanly as possible into _count_ bins of equal width.
-    We thus define a numerical function:
-
-    value(position):
-      if position < start or position >= start + length:
-        return None
-      else:
-        return array[floor((position - start)*count/length)]
-    */
-    array<float> values = [];
-  }
-
-  /*
-  A set of wiggle annotations
-  */
-  record WiggleSet {
-    /** Id of this annotation node. */
-    string id;
-
-    /** Set of additional attributes */
-    Attributes attributes;
-  }
-
-  /**
   Node in the annotation graph that annotates a contiguous region of a
   sequence.
   */
