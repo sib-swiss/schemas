@@ -61,7 +61,7 @@ record Characterization {
   string analysisId;
  
   /**
-  Complexity of the reads
+  Complexity % of the reads
   */ 
   float complexity;
 
