@@ -8,11 +8,16 @@ import idl "common.avdl";
 import idl "reads.avdl";
 
 /**
-Units for expression level
+Units for expression level.
+FPKM - number of Fragments Per Kilobase of feature length per Million reads
+FPKM is calculated by dividing the fragment count per feature by the total number of reads in millions (FPM - Fragments Per Million).  FPM is then divided by feature length in kilobases to obtain FPKM.
+
+TPM - Transcripts per kilobase Per Million reads
+TPM is calculated by first dividing the fragment/read count by feature length in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample are then divided by a million to generate a 'per million' scaling value.  For each feature RPK divided by the 'per million' scaling factor generated TPM.
 */
 enum ExpressionUnits {
   FPKM,
-  RPM
+  TPM
 }
 
 /**
@@ -61,7 +66,7 @@ record Characterization {
   string analysisId;
  
   /**
-  Complexity % of the reads
+  Distinct uniquely mapped reads as a fraction of total uniquely mapped reads.
   */ 
   float complexity;
 
@@ -163,7 +168,7 @@ record FeatureGroup {
 }
 
 /**
-The actual FPKM data for each feature.
+The actual numerical quantification for each feature.
 */
 record ExpressionLevel {
   /**
