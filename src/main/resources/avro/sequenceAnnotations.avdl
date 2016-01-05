@@ -22,29 +22,6 @@ protocol SequenceAnnotations {
   import idl "metadata.avdl";
 
   /**
-  Identifier from a public database
-  */
-  record ExternalIdentifier {
-    /**
-    The source of the identifier.
-    (e.g. `Ensembl`)
-    */
-    string database;
-
-    /**
-    The ID defined by the external database.
-    (e.g. `ENST00000000000`)
-    */
-    string identifier;
-
-    /**
-    The version of the object or the database
-    (e.g. `78`)
-    */
-    string version;
-  }
-
-  /**
   Type defining a collection of attributes associated with various protocol
   records.  Each attribute is a name that maps to an array of one or more
   values.  Values can be strings, external identifiers, or ontology terms.
