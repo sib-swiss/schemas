@@ -6,10 +6,6 @@ protocol SequenceAnnotationMethods {
   import idl "methods.avdl";
   import idl "sequenceAnnotations.avdl";
 
-  // FIXME: wiggle methods not defined.
-
-  /******************  /features/search  *********************/
-
   /**
   This request maps to the body of `POST /features/search` as JSON.
   */
@@ -25,13 +21,6 @@ protocol SequenceAnnotationMethods {
     ID. Either `featureSetId` or `parentId` must be non-empty.
     */
     union { null, string } parentId;
-
-    /**
-    If specified, this query matches only annotations which overlap this path.
-    */
-    /* TODO: path not used yet, as graph code is not working in server.
-       Fields below are copied directly from variants.avdl for now.
-    union { null, org.ga4gh.models.Path } path = null; */
 
     /**
     Only return features with on the reference with this name.  One of this

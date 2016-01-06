@@ -106,6 +106,26 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
 
+.. avro:record:: OntologyTerm
+
+  :field ontologySourceName:
+    ontology source name - the name of ontology from which the term is obtained
+        e.g. 'Human Phenotype Ontology'
+  :type ontologySourceName: null|string
+  :field ontologySourceID:
+    ontology source identifier - the identifier, a CURIE (preferred) or
+        PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+  :type ontologySourceID: null|string
+  :field ontologySourceVersion:
+    ontology source version - the version of the ontology from which the
+        OntologyTerm is obtained; e.g. 2.6.1.
+        There is no standard for ontology versioning and some frequently
+        released ontologies may use a datestamp, or build number.
+  :type ontologySourceVersion: null|string
+
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+    'polydactyly' from HPO)
+
 .. avro:record:: Experiment
 
   :field id:
@@ -310,16 +330,6 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   A linear alignment describes the alignment of a read to a Reference, using a
   position and CIGAR array.
 
-.. avro:record:: Fragment
-
-  :field id:
-    The fragment ID.
-  :type id: string
-
-  A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
-  be associated with a fragment to specify they derive from the same molecule.
-  TODO: this Fragment object is essentially unused, and may be removed in a future PR.
-
 .. avro:record:: ReadAlignment
 
   :field id:
@@ -334,10 +344,6 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
     The ID of the read group this read belongs to.
       (Every read must belong to exactly one read group.)
   :type readGroupId: string
-  :field fragmentId:
-    The fragment ID that this ReadAlignment belongs to.
-      TODO: this is the only reference to the Fragment object, which may be removed in a future PR.
-  :type fragmentId: string
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string

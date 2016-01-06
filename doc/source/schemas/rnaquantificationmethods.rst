@@ -1,85 +1,57 @@
-ReadMethods
-***********
+RnaQuantificationMethods
+************************
 
- .. function:: searchDatasets(request)
+ .. function:: searchRnaQuantification(request)
 
-  :param request: SearchDatasetsRequest: This request maps to the body of `POST /datasets/search` as JSON.
-  :return type: SearchDatasetsResponse
+  :param request: SearchRnaQuantificationRequest: This request maps to the body of 'POST /rnaquantification/search'
+    as JSON.
+  :return type: SearchRnaQuantificationResponse
   :throws: GAException
 
-Gets a list of datasets accessible through the API.
+Gets a list of 'RnaQuantification' matching the search criteria.
 
-TODO: Reads and variants both want to have datasets. Are they the same object?
+'POST /rnaquantification/search' must accept JSON version of
+'SearchRnaQuantificationRequest' as the post body and will return a JSON
+version of 'SearchRnaQuantificationResponse'.
 
-`POST /datasets/search` must accept a JSON version of
-`SearchDatasetsRequest` as the post body and will return a JSON version
-of `SearchDatasetsResponse`.
+ .. function:: getRnaQuantification(id)
 
- .. function:: searchReads(request)
-
-  :param request: SearchReadsRequest: This request maps to the body of `POST /reads/search` as JSON.
-  :return type: SearchReadsResponse
+  :param id: string: The ID of the `RnaQuantification`.
+  :return type: org.ga4gh.models.RnaQuantification
   :throws: GAException
 
-Gets a list of `ReadAlignment`s for one or more `ReadGroup`s.
+Gets a `RnaQuantification` by ID.
+`GET /rnaquantification/{id}` will return a JSON version of `RnaQuantification`.
 
-`searchReads` operates over a genomic coordinate space of reference sequence
-and position defined by the `Reference`s to which the requested `ReadGroup`s are
-aligned.
+ .. function:: searchFeatureGroup(request)
 
-If a target positional range is specified, search returns all reads whose
-alignment to the reference genome *overlap* the range. A query which specifies
-only read group IDs yields all reads in those read groups, including unmapped
-reads.
-
-All reads returned (including reads on subsequent pages) are ordered by genomic
-coordinate (by reference sequence, then position). Reads with equivalent genomic
-coordinates are returned in an unspecified order. This order must be consistent
-for a given repository, such that two queries for the same content (regardless
-of page size) yield reads in the same order across their respective streams of
-paginated responses.
-
-`POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
-the post body and will return a JSON version of `SearchReadsResponse`.
-
- .. function:: getDataset(id)
-
-  :param id: string: The ID of the `Dataset`.
-  :return type: org.ga4gh.models.Dataset
+  :param request: SearchFeatureGroupRequest: This request maps to the body of 'POST /featuregroup/search'
+    as JSON.
+  :return type: SearchFeatureGroupResponse
   :throws: GAException
 
-Gets a `Dataset` by ID.
-`GET /datasets/{id}` will return a JSON version of `Dataset`.
+Gets a list of 'FeatureGroup' matching the search criteria.
 
- .. function:: searchReadGroupSets(request)
+'POST /featuregroup/search' must accept JSON version of
+'SearchFeatureGroupRequest' as the post body and will return a JSON
+version of 'SearchFeatureGroupResponse'.
 
-  :param request: SearchReadGroupSetsRequest: This request maps to the body of `POST /readgroupsets/search` as JSON.
-  :return type: SearchReadGroupSetsResponse
+ .. function:: searchExpressionLevel(request)
+
+  :param request: SearchExpressionLevelRequest: This request maps to the body of 'POST /expressionlevel/search'
+    as JSON.
+  :return type: SearchExpressionLevelResponse
   :throws: GAException
 
-Gets a list of `ReadGroupSet` matching the search criteria.
+Gets a list of 'ExpressionLevel' matching the search criteria.
 
-`POST /readgroupsets/search` must accept a JSON version of
-`SearchReadGroupSetsRequest` as the post body and will return a JSON
-version of `SearchReadGroupSetsResponse`.
+'POST /expressionlevel/search' must accept JSON version of
+'SearchExpressionLevelRequest' as the post body and will return a JSON
+version of 'SearchExpressionLevelResponse'.
 
- .. function:: getReadGroupSet(id)
+.. avro:error:: GAException
 
-  :param id: string: The ID of the `ReadGroupSet`.
-  :return type: org.ga4gh.models.ReadGroupSet
-  :throws: GAException
-
-Gets a `org.ga4gh.models.ReadGroupSet` by ID.
-`GET /readgroupsets/{id}` will return a JSON version of `ReadGroupSet`.
-
- .. function:: getReadGroup(id)
-
-  :param id: string: The ID of the `ReadGroup`.
-  :return type: org.ga4gh.models.ReadGroup
-  :throws: GAException
-
-Gets a `org.ga4gh.models.ReadGroup` by ID.
-`GET /readgroups/{id}` will return a JSON version of `ReadGroup`.
+  A general exception type.
 
 .. avro:enum:: Strand
 
@@ -181,10 +153,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
 
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
-
-.. avro:error:: GAException
-
-  A general exception type.
 
 .. avro:record:: OntologyTerm
 
@@ -505,65 +473,157 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   about the fragment and the read. A read alignment object is equivalent to a
   line in a SAM file.
 
-.. avro:record:: SearchReadsRequest
+.. avro:enum:: ExpressionUnits
 
-  :field readGroupIds:
-    The ReadGroups to search. At least one id must be specified.
-  :type readGroupIds: array<string>
-  :field referenceId:
-    The reference to query. Leaving blank returns results from all
-      references, including unmapped reads - this could be very large.
-  :type referenceId: null|string
-  :field start:
-    The start position (0-based) of this query.
-      If a reference is specified, this defaults to 0.
-      Genomic positions are non-negative integers less than reference length.
-      Requests spanning the join of circular genomes are represented as
-      two requests one on each side of the join (position 0).
-  :type start: null|long
-  :field end:
-    The end position (0-based, exclusive) of this query.
-      If a reference is specified, this defaults to the
-      reference's length.
-  :type end: null|long
-  :field pageSize:
-    Specifies the maximum number of results to return in a single page.
-      If unspecified, a system default will be used.
-  :type pageSize: null|int
-  :field pageToken:
-    The continuation token, which is used to page through large result sets.
-      To get the next page of results, set this parameter to the value of
-      `nextPageToken` from the previous response.
-  :type pageToken: null|string
-
-  This request maps to the body of `POST /reads/search` as JSON.
+  :symbols: FPKM|TPM
+  Units for expression level.
+  FPKM - number of Fragments Per Kilobase of feature length per Million reads
+  FPKM is calculated by dividing the fragment count per feature by the total number of reads in millions (FPM - Fragments Per Million).  FPM is then divided by feature length in kilobases to obtain FPKM.
   
-  If a reference is specified, all queried `ReadGroup`s must be aligned
-  to `ReferenceSet`s containing that same `Reference`. If no reference is
-  specified, all queried `ReadGroup`s must be aligned to the same `ReferenceSet`.
+  TPM - Transcripts per kilobase Per Million reads
+  TPM is calculated by first dividing the fragment/read count by feature length in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample are then divided by a million to generate a 'per million' scaling value.  For each feature RPK divided by the 'per million' scaling factor generated TPM.
 
-.. avro:record:: SearchReadsResponse
+.. avro:record:: RnaQuantification
 
-  :field alignments:
-    The list of matching alignment records, sorted by position.
-      Unmapped reads, which have no position, are returned last.
-  :type alignments: array<org.ga4gh.models.ReadAlignment>
-  :field nextPageToken:
-    The continuation token, which is used to page through large result sets.
-      Provide this value in a subsequent request to return the next page of
-      results. This field will be empty if there aren't any additional results.
-  :type nextPageToken: null|string
-
-  This is the response from `POST /reads/search` expressed as JSON.
-
-.. avro:record:: SearchReadGroupSetsRequest
-
-  :field datasetId:
-    The dataset to search.
-  :type datasetId: string
+  :field id:
+    The unique ID assigned to the results of running the described programs on the
+    specified reads and assignment to the listed annotation.
+  :type id: string
   :field name:
-    Only return read group sets with this name (case-sensitive, exact match).
+    Name
   :type name: null|string
+  :field description:
+    Description
+  :type description: null|string
+  :field readGroupId:
+    ID of the ReadGroup providing the reads for the analysis.
+  :type readGroupId: string
+  :field programIds:
+    List of programIds used in the analysis.
+  :type programIds: array<string>
+  :field annotationIds:
+    List of annotations used.
+  :type annotationIds: array<string>
+
+  Top level identifying information
+
+.. avro:record:: Characterization
+
+  :field analysisId:
+    The associated RnaQuantification.
+  :type analysisId: string
+  :field complexity:
+    Distinct uniquely mapped reads as a fraction of total uniquely mapped reads.
+  :type complexity: float
+  :field fractionMapped:
+    Fraction of total reads which were mapped.  Values range from 0.0 to 1.0.
+  :type fractionMapped: float
+  :field intronicFraction:
+    Fraction of total reads which were mapped to introns.  Values range from 0.0 to 1.0.
+  :type intronicFraction: float
+  :field exonicFraction:
+    Fraction of total reads which were mapped to exons.  Values range from 0.0 to 1.0.
+  :type exonicFraction: float
+  :field intergenicFraction:
+    Fraction of total reads which were mapped to intergenic regions.  Values range from 0.0 to 1.0.
+  :type intergenicFraction: float
+
+  Read characterization data.
+
+.. avro:record:: ReadCounts
+
+  :field analysisId:
+    The associated RnaQuantification.
+  :type analysisId: string
+  :field totalReadCount:
+    Total number of mapped reads.
+  :type totalReadCount: int
+  :field uniqueCount:
+    Total number of reads that are uniquely mapped to a position in the reference.
+  :type uniqueCount: int
+  :field multiCount:
+    Total number of reads that map to multiple positions in the reference.
+  :type multiCount: int
+  :field uniqueSpliceCount:
+    Total number of reads that are uniquely mapped to a splice position in the reference.
+  :type uniqueSpliceCount: int
+  :field multiSpliceCount:
+    Total number of reads that map to multiple splice positions in the reference.
+  :type multiSpliceCount: int
+
+  Details of the read counts.
+
+.. avro:record:: FeatureGroup
+
+  :field id:
+    Feature group ID
+  :type id: string
+  :field analysisId:
+    The associated RnaQuantification.
+  :type analysisId: string
+  :field name:
+    Name
+  :type name: null|string
+  :field description:
+    Description
+  :type description: null|string
+  :field created:
+    The time at which this feature group was created in milliseconds from the epoch.
+  :type created: null|long
+  :field updated:
+    The time at which this feature group was last updated in milliseconds
+      from the epoch.
+  :type updated: null|long
+  :field info:
+    A map of additional feature group information.
+  :type info: map<array<string>>
+
+  Identifying information for annotated features.
+
+.. avro:record:: ExpressionLevel
+
+  :field id:
+    Feature ID
+  :type id: string
+  :field name:
+    Name
+  :type name: null|string
+  :field featureGroupId:
+    The associated FeatureGoup.
+  :type featureGroupId: string
+  :field annotationId:
+    The associated annotation.
+  :type annotationId: string
+  :field rawReadCount:
+    The number of reads mapped to this feature.
+  :type rawReadCount: float
+  :field expression:
+    Numerical expression value.
+  :type expression: null|float
+  :field isNormalized:
+    True if the expression value is a normalized value.
+  :type isNormalized: null|boolean
+  :field units:
+    The units of the expression value if one is given.
+  :type units: null|ExpressionUnits
+  :field score:
+    Weighted score for the expression value.
+  :type score: null|float
+  :field confInterval:
+    Confidence interval on the expression value.  Expressed as a sorted array
+      from low to high.
+  :type confInterval: array<float>
+
+  The actual numerical quantification for each feature.
+
+.. avro:record:: SearchRnaQuantificationRequest
+
+  :field rnaQuantificationId:
+    If present, return only Rna Quantifications which belong to this set.
+  :type rnaQuantificationId: null|string
+  :field datasetId:
+    If present, return only Rna Quantifications which belong to this set.
+  :type datasetId: null|string
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
@@ -571,32 +631,40 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field pageToken:
     The continuation token, which is used to page through large result sets.
       To get the next page of results, set this parameter to the value of
-      `nextPageToken` from the previous response.
+      'nextPageToken' from the previous response.
   :type pageToken: null|string
 
-  This request maps to the body of `POST /readgroupsets/search` as JSON.
-  
-  TODO: Factor this out to a common API patterns section.
-  - If searching by a resource ID, and that resource is not found, the method
-  will return a `404` HTTP status code (`NOT_FOUND`).
-  - If searching by other attributes, e.g. `name`, and no matches are found, the
-  method will return a `200` HTTP status code (`OK`) with an empty result list.
+  This request maps to the body of 'POST /rnaquantification/search'
+  as JSON.
 
-.. avro:record:: SearchReadGroupSetsResponse
+.. avro:record:: SearchRnaQuantificationResponse
 
-  :field readGroupSets:
-    The list of matching read group sets.
-  :type readGroupSets: array<org.ga4gh.models.ReadGroupSet>
+  :field rnaQuantification:
+    The list of matching quantifications.
+  :type rnaQuantification: array<org.ga4gh.models.RnaQuantification>
   :field nextPageToken:
     The continuation token, which is used to page through large result sets.
-      Provide this value in a subsequent request to return the next page of
-      results. This field will be empty if there aren't any additional results.
+      To get the next page of results, set this parameter to the value of
+      'nextPageToken' from the previous response.
   :type nextPageToken: null|string
 
-  This is the response from `POST /readgroupsets/search` expressed as JSON.
+  This is the response from 'POST /rnaquantification/search' expressed as JSON.
 
-.. avro:record:: SearchDatasetsRequest
+.. avro:record:: SearchExpressionLevelRequest
 
+  :field expressionLevelId:
+    If present, return matching Expression Level record.
+  :type expressionLevelId: null|string
+  :field featureGroupId:
+    If present return only ExpressionLevel records which belong to this set.
+  :type featureGroupId: null|string
+  :field rnaQuantificationId:
+    The rnaQuantification to restrict search to.
+  :type rnaQuantificationId: string
+  :field threshold:
+    If present returns ExpressionLevel records with expressions exceeding
+      this value.
+  :type threshold: null|float
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
@@ -604,21 +672,57 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field pageToken:
     The continuation token, which is used to page through large result sets.
       To get the next page of results, set this parameter to the value of
-      `nextPageToken` from the previous response.
+      'nextPageToken' from the previous response.
   :type pageToken: null|string
 
-  This request maps to the body of `POST /datasets/search` as JSON.
+  This request maps to the body of 'POST /expressionlevel/search'
+  as JSON.
 
-.. avro:record:: SearchDatasetsResponse
+.. avro:record:: SearchExpressionLevelResponse
 
-  :field datasets:
-    The list of datasets.
-  :type datasets: array<org.ga4gh.models.Dataset>
+  :field expressionLevel:
+    The line below is causing problems - naming or something wrong with the
+      import perhaps?
+  :type expressionLevel: array<org.ga4gh.models.ExpressionLevel>
   :field nextPageToken:
     The continuation token, which is used to page through large result sets.
-      Provide this value in a subsequent request to return the next page of
-      results. This field will be empty if there aren't any additional results.
+      To get the next page of results, set this parameter to the value of
+      'nextPageToken' from the previous response.
   :type nextPageToken: null|string
 
-  This is the response from `POST /datasets/search` expressed as JSON.
+  This is the response from 'POST /expressionlevel/search' expressed as JSON.
+
+.. avro:record:: SearchFeatureGroupRequest
+
+  :field rnaQuantificationId:
+    RNA Quantification to search.
+  :type rnaQuantificationId: string
+  :field featureGroupId:
+    Feature Groups of interest.
+  :type featureGroupId: null|string
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+      If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+      To get the next page of results, set this parameter to the value of
+      'nextPageToken' from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of 'POST /featuregroup/search'
+  as JSON.
+
+.. avro:record:: SearchFeatureGroupResponse
+
+  :field featureGroup:
+    The list of matching feature groups.
+  :type featureGroup: array<org.ga4gh.models.FeatureGroup>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+      To get the next page of results, set this parameter to the value of
+      'nextPageToken' from the previous response.
+  :type nextPageToken: null|string
+
+  This is the response from 'POST /featuregroup/search' expressed as JSON.
 

@@ -176,6 +176,11 @@ record ExpressionLevel {
   */
   string id;
 
+  /**
+  Name
+  */
+  union {null, string} name = null;
+
   /** 
   The associated FeatureGoup. 
   */
