@@ -99,10 +99,10 @@ protocol SequenceAnnotationMethods {
     SearchFeaturesRequest request) throws GAException;
 
 
-  /****************  /feature/{id}  *******************/
+  /****************  /features/{id}  *******************/
   /**
   Gets a `org.ga4gh.models.Feature` by ID.
-  `GET /feature/{id}` will return a JSON version of `Feature`.
+  `GET /features/{id}` will return a JSON version of `Feature`.
   */
   org.ga4gh.models.Feature getFeature(
     /**
