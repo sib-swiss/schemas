@@ -83,11 +83,8 @@ message SearchVariantsRequest {
   // The `VariantSet` to search.
   string variant_set_id = 1;
 
-  // XXX: Resolve the null vs empty case (#488).
-
   // Only return variant calls which belong to call sets with these IDs.
-  // If an empty array, returns variants without any call objects.
-  // If null, returns all variant calls.
+  // If unspecified, return all variants and no variant call objects.
   repeated string call_set_ids = 2;
 
   // Required. Only return variants on this reference.
