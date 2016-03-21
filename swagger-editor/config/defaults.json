@@ -11,21 +11,12 @@
     }
   },
   "disableCodeGen": false,
-  "examplesFolder": "spec-files/",
+  "examplesFolder": "../src/main/resources/yaml/",
   "editorOptions": {
     "theme": "ace/theme/atom_dark"
   },
   "exampleFiles": [
-    "default.yaml",
-    "heroku-pets.yaml",
-    "minimal.yaml",
-    "echo.yaml",
-    "petstore_simple.yaml",
-    "petstore_full.yaml",
-    "basic-auth.yaml",
-    "security.yaml",
-    "instagram.yaml",
-    "twitter.yaml"
+    "beacon.yaml"
   ],
   "autocompleteExtension": {},
   "useBackendForStorage": false,
