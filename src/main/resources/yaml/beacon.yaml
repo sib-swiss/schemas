@@ -34,7 +34,7 @@ paths:
           description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
           required: true
           type: string
-        - name: position
+        - name: start
           in: query
           description: Coordinate within a chromosome (0-based)
           required: true
@@ -105,7 +105,7 @@ definitions:
       referenceName:
         type: string
         description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
-      position:
+      start:
         type: number
         description: Coordinate within a chromosome (0-based).
       assemblyId:
