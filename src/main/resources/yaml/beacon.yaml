@@ -29,27 +29,27 @@ paths:
       summary: Beacon query endpoint
       description: "To actually ask the beacon for questions like \"do you have any genomes with an 'A' at position 100,735 on chromosome 3?\" And the answer will be yes or no."
       parameters:
-        - name: chrom
+        - name: referenceName
           in: query
           description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
           required: true
           type: string
-        - name: pos
+        - name: position
           in: query
           description: Coordinate within a chromosome (0-based)
           required: true
           type: number
-        - name: assembly
+        - name: assemblyId
           in: query
           description: 'The version of the reference genome, NCBI notation.'
           required: true
           type: string
-        - name: alt
+        - name: alternateBases
           in: query
           description: 'The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.'
           required: true
           type: string
-        - name: ref
+        - name: referenceBases
           in: query
           description: 'The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.'
           required: true
@@ -102,19 +102,19 @@ definitions:
   BeaconAlleleRequest:
     type: object
     properties:
-      chrom:
+      referenceName:
         type: string
         description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
-      pos:
+      position:
         type: number
         description: Coordinate within a chromosome (0-based).
-      assembly:
+      assemblyId:
         type: string
         description: 'The version of the reference genome, NCBI notation.'
-      alt:
+      alternateBases:
         type: string
         description: 'The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.'
-      ref:
+      referenceBases:
         type: string
         description: 'The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.'
       datasetIds:
