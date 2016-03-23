@@ -235,10 +235,10 @@ definitions:
         description: 'Alternative URL.'
       created:
         type: number
-        description: 'The Beacon\'s creation date.'
+        description: 'The Beacon creation date.'
       updated:
         type: number
-        description: 'The Beacon\'s last update date.'
+        description: 'The Beacon last update date.'
       info:
         description: 'General information about the Beacon.'
         type: array
@@ -255,19 +255,19 @@ definitions:
         description: 'Assembly identifier (GRC notation, e.g. `GRCh37`). Why not "referenceName"?'
       description:
         type: string
-        description: 'The dataset\'s description.'
+        description: 'The dataset description.'
       consentCodeDataUse:
         type: string
         description: 'Should be org.ga4gh.consentcode.ConsentCodeDataUse and not string.'
       name:
         type: string
-        description: 'The dataset\'s name.'
+        description: 'The dataset name.'
       created:
         type: number
         description: 'The dataset creation date.'
       updated:
         type: number
-        description: 'The dataset\'s last update date.'
+        description: 'The dataset last update date.'
       version:
         type: string
         description: 'The version of the dataset.'
