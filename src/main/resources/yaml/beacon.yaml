@@ -125,12 +125,9 @@ definitions:
   BeaconError:
     type: object
     properties:
-      status:
+      errorCode:
         type: number
         description: The error code.
-      reason:
-        type: string
-        description: The reason of the error.
       message:
         type: string
         description: An error message.
