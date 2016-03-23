@@ -36,7 +36,7 @@ paths:
           type: string
         - name: start
           in: query
-          description: Coordinate within a chromosome (0-based)
+          description: 'Position, allele locus (0-based). Accepted values: non-negative integers smaller than reference length.'
           required: true
           type: number
         - name: assemblyId
@@ -46,12 +46,12 @@ paths:
           type: string
         - name: alternateBases
           in: query
-          description: 'The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.'
+          description: 'The bases that appear instead of the reference bases. Accepted values: see the ALT field in VCF 4.2 specification.'
           required: true
           type: string
         - name: referenceBases
           in: query
-          description: 'The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.'
+          description: 'Reference bases for this variant (starting from `start`). Accepted values: see the REF field in VCF 4.2 specification.'
           required: true
           type: string
         - name: datasetIds
