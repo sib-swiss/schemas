@@ -12,7 +12,7 @@ paths:
   /info:
     get:
       summary: Beacon info endpoint
-      description: 'Returns the information about this beacon (name, description, API version, URL, etc...)'
+      description: Returns the information about this beacon (name, description, API version, URL, etc...)
       responses:
         '200':
           description: A Beacon info page
@@ -27,36 +27,36 @@ paths:
   /query:
     get:
       summary: Beacon query endpoint
-      description: "To actually ask the beacon for questions like \"do you have any genomes with an 'A' at position 100,735 on chromosome 3?\" And the answer will be yes or no."
+      description: To actually ask the beacon for questions like \"do you have any genomes with an 'A' at position 100,735 on chromosome 3?\" And the answer will be yes or no.
       parameters:
         - name: referenceName
           in: query
-          description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
+          description: Chromosome name. Accepted values are 1-22, X, Y and MT.
           required: true
           type: string
         - name: start
           in: query
-          description: 'Position, allele locus (0-based). Accepted values: non-negative integers smaller than reference length.'
+          description: Position, allele locus (0-based). Accepted values: non-negative integers smaller than reference length.
           required: true
           type: number
         - name: assemblyId
           in: query
-          description: 'The version of the reference genome, NCBI notation.'
+          description: The version of the reference genome, NCBI notation.
           required: true
           type: string
         - name: alternateBases
           in: query
-          description: 'The bases that appear instead of the reference bases. Accepted values: see the ALT field in VCF 4.2 specification.'
+          description: The bases that appear instead of the reference bases. Accepted values: see the ALT field in VCF 4.2 specification.
           required: true
           type: string
         - name: referenceBases
           in: query
-          description: 'Reference bases for this variant (starting from `start`). Accepted values: see the REF field in VCF 4.2 specification.'
+          description: Reference bases for this variant (starting from `start`). Accepted values: see the REF field in VCF 4.2 specification.
           required: true
           type: string
         - name: datasetIds
           in: query
-          description: 'Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier'
+          description: Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier
           required: false
           type: array
           items:
@@ -80,10 +80,10 @@ definitions:
     properties:
       beaconId:
         type: string
-        description: Beacon identfier
+        description: Identifier of the beacon, as defined in `Beacon`.
       exists:
         type: boolean
-        description: indicates whether the variant has been observed.
+        description: Indicates whether the variant has been observed. Might be removed in the future.
       alleleRequest:
         type: object
         items:
@@ -91,37 +91,37 @@ definitions:
         description: The request to the Beacon.
       datasetAlleleResponses:
         type: array
-        description: Datasets for which the variant is found.
+        description: Indicator of whether the beacon has observed the allele.
         items:
           $ref: '#/definitions/DatasetAlleleResponse'
       error:
         type: object
         items:
           $ref: '#/definitions/BeaconError'
-        description: Error
+        description: Beacon-specific error. This should be non-null in exceptional situations only.
   BeaconAlleleRequest:
     type: object
     properties:
       referenceName:
         type: string
-        description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
+        description: Chromosome name. Accepted values are 1-22, X, Y and MT.
       start:
         type: number
         description: Coordinate within a chromosome (0-based).
       assemblyId:
         type: string
-        description: 'The version of the reference genome, NCBI notation.'
+        description: The version of the reference genome, NCBI notation.
       alternateBases:
         type: string
-        description: 'The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.'
+        description: The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.
       referenceBases:
         type: string
-        description: 'The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.'
+        description: The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.
       datasetIds:
         type: array
         items:
           type: string
-        description: 'Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier.'
+        description: Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier.
   BeaconError:
     type: object
     properties:
@@ -131,20 +131,23 @@ definitions:
       message:
         type: string
         description: An error message.
-  DatasetAlleleResponse:
+  BeaconDatasetAlleleResponse:
     type: object
     properties:
+      datasetId:
+        type: string
+        description: Identifier of the dataset, as defined in `BeaconDataset`.
       exists:
         type: boolean
-        description: Can be used to indicate that this variant has been observed before and no other information.
+        description: Indicator of whether the given allele was observed in the dataset. This should be non-null, unless there was an error.
       frequency:
         type: number
-        description: 'Frequency of the allele in the dataset, 0.0-1.0, inclusive.'
-      errorInfo:
+        description: Frequency of the allele in the dataset, 0.0-1.0, inclusive.
+      error:
         type: array
         items:
           $ref: '#/definitions/BeaconError'
-        description: Beacon error.
+        description: Dataset-specific error. This should be non-null in exceptional situations only, in which case `exists` has to be null.
       variantCount:
         type: number
         description: Number of variants in the dataset.
@@ -232,10 +235,10 @@ definitions:
         description: Alternative URL.
       created:
         type: number
-        description: "The beacon's creation date."
+        description: The beacon's creation date.
       updated:
         type: number
-        description: "The beacon's last update date."
+        description: The beacon's last update date.
       info:
         description: General information about the beacon.
         type: array
@@ -247,23 +250,24 @@ definitions:
       id:
         type: string
         description: Short unique identifier for the dataset.
-      assembly:
+      assemblyId:
         type: string
-        description: 'The version of the reference genome, NCBI notation.'
+        description: Assembly identifier (GRC notation, e.g. `GRCh37`). Why not "referenceName"?
       description:
         type: string
-        description: "The dataset's description."
-      dataUse:
-        $ref: '#/definitions/DataUse'
+        description: The dataset's description.
+      consentCodeDataUse:
+        type: string
+        description: Should be org.ga4gh.consentcode.ConsentCodeDataUse and not string.
       name:
         type: string
-        description: "The dataset's name."
+        description: The dataset's name.
       created:
         type: number
         description: The dataset creation date.
       updated:
         type: number
-        description: "The dataset's last update date."
+        description: The dataset's last update date.
       version:
         type: string
         description: The version of the dataset.
@@ -284,27 +288,3 @@ definitions:
         type: array
         items:
           type: string
-  DataUse:
-    type: object
-    properties:
-      primaryCategory:
-        $ref: '#/definitions/DataUseCondition'
-      requirements:
-        description: List of data use requirements.
-        type: array
-        items:
-          $ref: '#/definitions/DataUseCondition'
-      secondaryCategories:
-        description: List of secondary data use conditions.
-        type: array
-        items:
-          $ref: '#/definitions/DataUseCondition'
-  DataUseCondition:
-    type: object
-    properties:
-      description:
-        type: string
-        description: Data use condition description.
-      code:
-        type: string
-        description: Data use condition code.
