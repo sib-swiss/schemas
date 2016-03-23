@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: Beacon API
-  description: This document represents a proposal for the next version of the API for the GA4GH Beacon Project. The new API is intended to expose new functionalities motivated by potential uses cases contributed by the community.
+  description: 'This document represents a proposal for the next version of the API for the GA4GH Beacon Project. The new API is intended to expose new functionalities motivated by potential uses cases contributed by the community.'
   version: '0.3'
 schemes:
   - https
@@ -11,52 +11,52 @@ produces:
 paths:
   /info:
     get:
-      summary: Beacon info endpoint
-      description: Returns the information about this beacon (name, description, API version, URL, etc...)
+      summary: 'Beacon info endpoint'
+      description: 'Returns the information about this beacon (name, description, API version, URL, etc...)'
       responses:
         '200':
-          description: A Beacon info page
+          description: 'A Beacon info page'
           schema:
             $ref: '#/definitions/Beacon'
         default:
-          description: Unexpected error
+          description: 'Unexpected error'
           schema:
             $ref: '#/definitions/BeaconError'
       tags:
         - Info
   /query:
     get:
-      summary: Beacon query endpoint
-      description: To actually ask the beacon for questions like \"do you have any genomes with an 'A' at position 100,735 on chromosome 3?\" And the answer will be yes or no.
+      summary: 'Beacon query endpoint'
+      description: 'To actually ask the beacon for questions like \"do you have any genomes with an "A" at position 100,735 on chromosome 3?\" And the answer will be yes or no.'
       parameters:
         - name: referenceName
           in: query
-          description: Chromosome name. Accepted values are 1-22, X, Y and MT.
+          description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
           required: true
           type: string
         - name: start
           in: query
-          description: Position, allele locus (0-based). Accepted values: non-negative integers smaller than reference length.
+          description: 'Position, allele locus (0-based). Accepted values: non-negative integers smaller than reference length.'
           required: true
           type: number
         - name: assemblyId
           in: query
-          description: The version of the reference genome, NCBI notation.
+          description: 'The version of the reference genome, NCBI notation.'
           required: true
           type: string
         - name: alternateBases
           in: query
-          description: The bases that appear instead of the reference bases. Accepted values: see the ALT field in VCF 4.2 specification.
+          description: 'The bases that appear instead of the reference bases. Accepted values: see the ALT field in VCF 4.2 specification.'
           required: true
           type: string
         - name: referenceBases
           in: query
-          description: Reference bases for this variant (starting from `start`). Accepted values: see the REF field in VCF 4.2 specification.
+          description: 'Reference bases for this variant (starting from `start`). Accepted values: see the REF field in VCF 4.2 specification.'
           required: true
           type: string
         - name: datasetIds
           in: query
-          description: Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier
+          description: 'Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier.'
           required: false
           type: array
           items:
@@ -65,13 +65,13 @@ paths:
         - Query
       responses:
         '200':
-          description: A beacon allele response
+          description: 'A beacon allele response'
           schema:
             type: array
             items:
               $ref: '#/definitions/BeaconAlleleResponse'
         default:
-          description: Unexpected error
+          description: 'Unexpected error'
           schema:
             $ref: '#/definitions/BeaconError'
 definitions:
@@ -80,167 +80,167 @@ definitions:
     properties:
       beaconId:
         type: string
-        description: Identifier of the beacon, as defined in `Beacon`.
+        description: 'Identifier of the beacon, as defined in `Beacon`.'
       exists:
         type: boolean
-        description: Indicates whether the variant has been observed. Might be removed in the future.
+        description: 'Indicates whether the variant has been observed. Might be removed in the future.'
       alleleRequest:
         type: object
         items:
           $ref: '#/definitions/BeaconAlleleRequest'
-        description: The request to the Beacon.
+        description: 'The request to the Beacon.'
       datasetAlleleResponses:
         type: array
-        description: Indicator of whether the beacon has observed the allele.
+        description: 'Indicator of whether the beacon has observed the allele.'
         items:
           $ref: '#/definitions/DatasetAlleleResponse'
       error:
         type: object
         items:
           $ref: '#/definitions/BeaconError'
-        description: Beacon-specific error. This should be non-null in exceptional situations only.
+        description: 'Beacon-specific error. This should be non-null in exceptional situations only.'
   BeaconAlleleRequest:
     type: object
     properties:
       referenceName:
         type: string
-        description: Chromosome name. Accepted values are 1-22, X, Y and MT.
+        description: 'Chromosome name. Accepted values are 1-22, X, Y and MT.'
       start:
         type: number
-        description: Coordinate within a chromosome (0-based).
+        description: 'Coordinate within a chromosome (0-based).'
       assemblyId:
         type: string
-        description: The version of the reference genome, NCBI notation.
+        description: 'The version of the reference genome, NCBI notation.'
       alternateBases:
         type: string
-        description: The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.
+        description: 'The bases that appear instead of the reference bases. The semantics correspond to the field ALT in VCF. Options are base Strings made up of A,C,G,T,N,* (case insensitive) or an angle-bracketed ID or a breakend replacement string.'
       referenceBases:
         type: string
-        description: The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.
+        description: 'The reference bases for this variant, starting from `position`, in the genome described by the field `reference`. The semantics correspond to the field REF in VCF. One of A,C,G,T,N (case insensitive). Multiple bases are permitted.'
       datasetIds:
         type: array
         items:
           type: string
-        description: Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier.
+        description: 'Limit to a set of datasetIds at the target website. An ID is specific to the website that is queried and can be an accession ID, population or any other identifier.'
   BeaconError:
     type: object
     properties:
       errorCode:
         type: number
-        description: The error code.
+        description: 'The error code.'
       message:
         type: string
-        description: An error message.
+        description: 'An error message.'
   BeaconDatasetAlleleResponse:
     type: object
     properties:
       datasetId:
         type: string
-        description: Identifier of the dataset, as defined in `BeaconDataset`.
+        description: 'Identifier of the dataset, as defined in `BeaconDataset`.'
       exists:
         type: boolean
-        description: Indicator of whether the given allele was observed in the dataset. This should be non-null, unless there was an error.
+        description: 'Indicator of whether the given allele was observed in the dataset. This should be non-null, unless there was an error.'
       frequency:
         type: number
-        description: Frequency of the allele in the dataset, 0.0-1.0, inclusive.
+        description: 'Frequency of the allele in the dataset, 0.0-1.0, inclusive.'
       error:
         type: array
         items:
           $ref: '#/definitions/BeaconError'
-        description: Dataset-specific error. This should be non-null in exceptional situations only, in which case `exists` has to be null.
+        description: 'Dataset-specific error. This should be non-null in exceptional situations only, in which case `exists` has to be null.'
       variantCount:
         type: number
-        description: Number of variants in the dataset.
+        description: 'Number of variants in the dataset.'
       callCount:
         type: number
-        description: Number of called observations of this allele in the dataset.
+        description: 'Number of called observations of this allele in the dataset.'
       sampleCount:
         type: number
-        description: Number of observations of this allele in the dataset.
+        description: 'Number of observations of this allele in the dataset.'
       note:
         type: string
-        description: Human-readable description of this variant.
+        description: 'Human-readable description of this variant.'
       externalUrl:
         type: string
-        description: URL with more information about a variant.
+        description: 'URL with more information about a variant.'
       info:
         type: array
         items:
           type: string
-        description: General information about the query.
+        description: 'General information about the query.'
   BeaconOrganization:
     type: object
     properties:
       id:
         type: string
-        description: Short unique identifier for the organization hosting the beacon.
+        description: 'Short unique identifier for the organization hosting the beacon.'
       name:
         type: string
-        description: The organization name.
+        description: 'The organization name.'
       description:
         type: string
-        description: The organization description.
+        description: 'The organization description.'
       address:
         type: string
-        description: The address of the organization.
+        description: 'The address of the organization.'
       welcomeUrl:
         type: string
-        description: URL of homepage with additional info about the organizazion
+        description: 'URL of homepage with additional info about the organization'
       contactUrl:
         type: string
-        description: Beacon contact person in the organization.
+        description: 'Beacon contact person in the organization.'
       logoUrl:
         type: string
-        description: URL with a logo shown.
+        description: 'URL with a logo shown.'
       info:
         type: array
         items:
           type: string
-        description: General information about the organization.
+        description: 'General information about the organization.'
   Beacon:
     type: object
     properties:
       id:
         type: string
-        description: Short unique identifier for the beacon.
+        description: 'Short unique identifier for the beacon.'
       organization:
         $ref: '#/definitions/BeaconOrganization'
       description:
         type: string
-        description: Longer human-readable description of the beacon.
+        description: 'Longer human-readable description of the beacon.'
       datasets:
         type: array
-        description: List of datasets served by the beacon.
+        description: 'List of datasets served by the beacon.'
         items:
           $ref: '#/definitions/BeaconDataset'
       apiVersion:
         type: string
-        description: Beacon API version.
+        description: 'Beacon API version.'
       welcomeUrl:
         type: string
-        description: URL of homepage with additional info about the beacon.
+        description: 'URL of homepage with additional info about the Beacon.'
       sampleAlleleRequests:
         type: array
-        description: Examples of allele requests.
+        description: 'Examples of allele requests.'
         items:
           $ref: '#/definitions/BeaconAlleleRequest'
       name:
         type: string
-        description: The beacon name.
+        description: 'The Beacon name.'
       version:
         type: string
-        description: The beacon version.
+        description: 'The Beacon version.'
       alternativeUrl:
         type: string
-        description: Alternative URL.
+        description: 'Alternative URL.'
       created:
         type: number
-        description: The beacon's creation date.
+        description: 'The Beacon\'s creation date.'
       updated:
         type: number
-        description: The beacon's last update date.
+        description: 'The Beacon\'s last update date.'
       info:
-        description: General information about the beacon.
+        description: 'General information about the Beacon.'
         type: array
         items:
           type: string
@@ -249,42 +249,42 @@ definitions:
     properties:
       id:
         type: string
-        description: Short unique identifier for the dataset.
+        description: 'Short unique identifier for the dataset.'
       assemblyId:
         type: string
-        description: Assembly identifier (GRC notation, e.g. `GRCh37`). Why not "referenceName"?
+        description: 'Assembly identifier (GRC notation, e.g. `GRCh37`). Why not "referenceName"?'
       description:
         type: string
-        description: The dataset's description.
+        description: 'The dataset\'s description.'
       consentCodeDataUse:
         type: string
-        description: Should be org.ga4gh.consentcode.ConsentCodeDataUse and not string.
+        description: 'Should be org.ga4gh.consentcode.ConsentCodeDataUse and not string.'
       name:
         type: string
-        description: The dataset's name.
+        description: 'The dataset\'s name.'
       created:
         type: number
-        description: The dataset creation date.
+        description: 'The dataset creation date.'
       updated:
         type: number
-        description: The dataset's last update date.
+        description: 'The dataset\'s last update date.'
       version:
         type: string
-        description: The version of the dataset.
+        description: 'The version of the dataset.'
       variantCount:
         type: number
-        description: The number of variants in the dataset.
+        description: 'The number of variants in the dataset.'
       callCount:
         type: number
-        description: The number of calls in the dataset.
+        description: 'The number of calls in the dataset.'
       sampleCount:
         type: number
-        description: The number of samples in the dataset.
+        description: 'The number of samples in the dataset.'
       externalUrl:
         type: string
-        description: The URL of a page with additional info about the dataset.
+        description: 'The URL of a page with additional info about the dataset.'
       info:
-        description: General inoformation about the dataset.
+        description: 'General inoformation about the dataset.'
         type: array
         items:
           type: string
