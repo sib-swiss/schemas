@@ -94,7 +94,7 @@ definitions:
         description: Datasets for which the variant is found.
         items:
           $ref: '#/definitions/DatasetAlleleResponse'
-      errorInfo:
+      error:
         type: object
         items:
           $ref: '#/definitions/BeaconError'
