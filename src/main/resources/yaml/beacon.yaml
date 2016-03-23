@@ -93,7 +93,7 @@ definitions:
         type: array
         description: 'Indicator of whether the beacon has observed the allele.'
         items:
-          $ref: '#/definitions/DatasetAlleleResponse'
+          $ref: '#/definitions/BeaconDatasetAlleleResponse'
       error:
         type: object
         items:
