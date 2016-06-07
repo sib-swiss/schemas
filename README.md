@@ -1,5 +1,6 @@
 ![Image](http://genomicsandhealth.org/files/logo_ga.png)
 
+## SIB's local branch of GA4GH schemas to test documentation via Swagge
 
 # Schemas for the Data Working Group
 
